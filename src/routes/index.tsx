@@ -447,7 +447,7 @@ function Lattice() {
         return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
       });
       pts.forEach((p, i) => {
-        const q = pts[(i + 1) % 6];
+        const q = pts[(i + 1) % 6]!;
         bonds.push([p.x, p.y, q.x, q.y]);
         if (!atoms.some((a) => Math.abs(a.x - p.x) < 1 && Math.abs(a.y - p.y) < 1)) atoms.push({ ...p, k: atoms.length });
       });
