@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import portrait from "@/assets/asukrg_portrait.jpg.asset.json";
 import labBg from "@/assets/lab-lineart.jpg";
+import nebula from "@/assets/dark-nebula.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -142,11 +143,11 @@ function Index() {
           <a href="#top" className="flex min-w-0 items-center gap-3">
             <AtomIcon className="h-10 w-10 shrink-0" />
             <span className="min-w-0">
-              <span className="block truncate text-base font-semibold tracking-[0.4em] md:text-lg">ASUKRG</span>
+              <span className="block whitespace-nowrap text-base font-semibold tracking-[0.3em]">ASUKRG</span>
               <span className="eyebrow block text-[0.62rem] text-muted-foreground">PhD Scholar</span>
             </span>
           </a>
-          <nav className="hidden items-center gap-6 lg:flex">
+          <nav className="hidden items-center gap-5 xl:flex">
             {NAV.map(([id, label]) => (
               <a
                 key={id}
@@ -169,13 +170,13 @@ function Index() {
             >
               {paused ? "Play motion" : "Pause motion"}
             </button>
-            <button onClick={() => setMenu((m) => !m)} className="rounded-full border px-4 py-2 text-sm lg:hidden" aria-label="Menu">
+            <button onClick={() => setMenu((m) => !m)} className="rounded-full border px-4 py-2 text-sm xl:hidden" aria-label="Menu">
               {menu ? "Close" : "Menu"}
             </button>
           </div>
         </div>
         {menu && (
-          <nav className="grid gap-1 border-t px-5 py-3 lg:hidden">
+          <nav className="grid gap-1 border-t px-5 py-3 xl:hidden">
             {NAV.map(([id, label]) => (
               <a key={id} href={`#${id}`} onClick={() => setMenu(false)} className="py-2 text-base">
                 {label}
@@ -572,7 +573,17 @@ function PicOfTheDay() {
     fetch("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY")
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then(setPic)
-      .catch(() => setFailed(true));
+      .catch(() => {
+        setFailed(true);
+        setPic({
+          title: "A dark nebula against the Milky Way",
+          url: nebula,
+          media_type: "image",
+          explanation:
+            "Dark nebulae like the Coalsack are dense clouds of interstellar dust that block the light of stars behind them — the kind of dust I modelled during my Master's research.",
+          date: "Today",
+        });
+      });
   }, []);
   return (
     <article className="overflow-hidden rounded-3xl border bg-card">
@@ -590,7 +601,7 @@ function PicOfTheDay() {
       <div className="p-8">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="eyebrow text-muted-foreground">Picture of the day</p>
-          {pic && <span className="text-sm text-muted-foreground">{pic.date} · NASA APOD</span>}
+          {pic && <span className="text-sm text-muted-foreground">{pic.date}{failed ? "" : " · NASA APOD"}</span>}
         </div>
         <h3 className="mt-3 text-2xl font-semibold">{pic?.title ?? "Astronomy Picture of the Day"}</h3>
         {pic && <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-muted-foreground">{pic.explanation}</p>}
