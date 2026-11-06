@@ -132,12 +132,6 @@ export function Shell({ children }: { children: ReactNode }) {
             <a href={CV_URL} download className="hidden rounded-full border px-5 py-2 text-sm font-medium transition-colors hover:bg-secondary sm:block">
               Resume ↓
             </a>
-            <button
-              onClick={() => setPaused((p) => !p)}
-              className="hidden rounded-full border px-4 py-2 text-sm transition-colors hover:bg-secondary sm:block"
-            >
-              {paused ? "Play motion" : "Pause motion"}
-            </button>
             <button onClick={() => setMenu((m) => !m)} className="rounded-full border px-4 py-2 text-sm xl:hidden" aria-label="Menu">
               {menu ? "Close" : "Menu"}
             </button>
