@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import researcher from "@/assets/researcher-sketch.jpg";
+import portrait from "@/assets/asukrg_portrait.jpg.asset.json";
 import labBg from "@/assets/lab-lineart.jpg";
 
 export const Route = createFileRoute("/")({
@@ -141,8 +141,8 @@ function Index() {
           <a href="#top" className="flex min-w-0 items-center gap-3">
             <AtomIcon className="h-10 w-10 shrink-0" />
             <span className="min-w-0">
-              <span className="block truncate text-base font-semibold tracking-wide md:text-lg">A S UDAYA K R GUPTHA</span>
-              <span className="eyebrow block text-[0.62rem] text-muted-foreground">Physics research scholar</span>
+              <span className="block truncate text-base font-semibold tracking-[0.4em] md:text-lg">ASUKRG</span>
+              <span className="eyebrow block text-[0.62rem] text-muted-foreground">PhD Scholar</span>
             </span>
           </a>
           <nav className="hidden items-center gap-6 lg:flex">
@@ -159,6 +159,9 @@ function Index() {
             ))}
           </nav>
           <div className="flex shrink-0 items-center gap-2">
+            <a href={CV_URL} download className="hidden rounded-full border px-5 py-2 text-sm font-medium transition-colors hover:bg-secondary sm:block">
+              Resume ↓
+            </a>
             <button
               onClick={() => setPaused((p) => !p)}
               className="hidden rounded-full border px-4 py-2 text-sm transition-colors hover:bg-secondary sm:block"
@@ -185,27 +188,26 @@ function Index() {
         {/* Hero */}
         <section className="relative overflow-hidden">
           <img src={labBg} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-40" />
-          <div className="relative mx-auto grid max-w-7xl items-end gap-8 px-5 pt-10 md:grid-cols-2 md:px-10">
+          <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-5 pt-10 md:grid-cols-[1.1fr_1fr] md:px-10">
             <div className="relative order-2 md:order-1">
               <img
-                src={researcher}
-                alt="Sketch portrait of A S Udaya K R Guptha in a lab coat"
-                width={1024}
-                height={1280}
-                className="relative mx-auto w-full max-w-md mix-blend-multiply [mask-image:radial-gradient(ellipse_75%_80%_at_50%_45%,black_60%,transparent_100%)]"
+                src={portrait.url}
+                alt="A S Udaya K R Guptha in a lab coat holding a molecular model"
+                width={930}
+                height={754}
+                className="relative w-full mix-blend-multiply [mask-image:linear-gradient(to_right,black_85%,transparent)]"
               />
-              <span className="glow-dot absolute left-[55%] top-[26%] h-20 w-20 -translate-x-1/2 rounded-full" aria-hidden />
             </div>
             <div className="reveal order-1 pb-16 md:order-2 md:pb-28">
-              <p className="eyebrow text-foreground/80">A S Udaya K R Guptha · PhD Scholar</p>
+              <p className="eyebrow flex items-center gap-3 text-foreground/70">01 / Introduction <span className="h-px w-20 bg-border" /></p>
               <h1 className="mt-6 text-6xl font-semibold leading-[0.95] tracking-tight md:text-7xl lg:text-8xl">
-                Tiny lattices.
+                <span className="tracking-[0.12em]">ASUKRG</span>
                 <br />
-                <span className="font-serif font-normal italic text-muted-foreground">Real physics.</span>
+                <span className="font-serif font-normal italic text-muted-foreground">PhD Scholar</span>
               </h1>
               <p className="mt-8 max-w-lg text-lg leading-relaxed md:text-xl">
-                Exploring the physics of materials through computation — ion-related properties of two-dimensional
-                materials with Density Functional Theory.
+                I am a PhD scholar in Physics at SRM University-AP, working on computational approaches to understand
+                materials and their properties.
               </p>
               <p className="mt-6 text-muted-foreground">
                 Department of Physics
@@ -222,6 +224,9 @@ function Index() {
               </div>
               <Socials className="mt-8" />
             </div>
+          </div>
+          <div className="eyebrow pointer-events-none absolute right-10 top-1/4 hidden space-y-4 border-l pl-6 text-[0.65rem] text-muted-foreground xl:block">
+            <p>Simulate</p><p>Analyze</p><p>Discover</p>
           </div>
         </section>
 
