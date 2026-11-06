@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import portrait from "@/assets/asukrg_portrait.jpg.asset.json";
 import labBg from "@/assets/lab-lineart.jpg";
+import nebula from "@/assets/dark-nebula.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -40,6 +41,7 @@ const NAV = [
   ["skills", "Skills"],
   ["certifications", "Certificates"],
   ["contact", "Contact"],
+  ["more", "More"],
 ] as const;
 
 const INTERESTS = [
@@ -141,11 +143,11 @@ function Index() {
           <a href="#top" className="flex min-w-0 items-center gap-3">
             <AtomIcon className="h-10 w-10 shrink-0" />
             <span className="min-w-0">
-              <span className="block truncate text-base font-semibold tracking-[0.4em] md:text-lg">ASUKRG</span>
+              <span className="block whitespace-nowrap text-base font-semibold tracking-[0.3em]">ASUKRG</span>
               <span className="eyebrow block text-[0.62rem] text-muted-foreground">PhD Scholar</span>
             </span>
           </a>
-          <nav className="hidden items-center gap-6 lg:flex">
+          <nav className="hidden items-center gap-5 xl:flex">
             {NAV.map(([id, label]) => (
               <a
                 key={id}
@@ -168,13 +170,13 @@ function Index() {
             >
               {paused ? "Play motion" : "Pause motion"}
             </button>
-            <button onClick={() => setMenu((m) => !m)} className="rounded-full border px-4 py-2 text-sm lg:hidden" aria-label="Menu">
+            <button onClick={() => setMenu((m) => !m)} className="rounded-full border px-4 py-2 text-sm xl:hidden" aria-label="Menu">
               {menu ? "Close" : "Menu"}
             </button>
           </div>
         </div>
         {menu && (
-          <nav className="grid gap-1 border-t px-5 py-3 lg:hidden">
+          <nav className="grid gap-1 border-t px-5 py-3 xl:hidden">
             {NAV.map(([id, label]) => (
               <a key={id} href={`#${id}`} onClick={() => setMenu(false)} className="py-2 text-base">
                 {label}
@@ -199,11 +201,11 @@ function Index() {
               />
             </div>
             <div className="reveal order-1 pb-16 md:order-2 md:pb-28">
-              <p className="eyebrow flex items-center gap-3 text-foreground/70">01 / Introduction <span className="h-px w-20 bg-border" /></p>
-              <h1 className="mt-6 text-6xl font-semibold leading-[0.95] tracking-tight md:text-7xl lg:text-8xl">
-                <span className="tracking-[0.12em]">ASUKRG</span>
+              <p className="eyebrow text-foreground/80">A S U K R Guptha · PhD Researcher</p>
+              <h1 className="mt-6 text-5xl font-semibold leading-[1] tracking-tight md:text-6xl lg:text-7xl">
+                Computing materials.
                 <br />
-                <span className="font-serif font-normal italic text-muted-foreground">PhD Scholar</span>
+                <span className="font-serif font-normal italic text-muted-foreground">Understanding matter.</span>
               </h1>
               <p className="mt-8 max-w-lg text-lg leading-relaxed md:text-xl">
                 I am a PhD scholar in Physics at SRM University-AP, working on computational approaches to understand
@@ -364,6 +366,12 @@ function Index() {
             <ContactForm />
           </div>
         </Section>
+        <Section id="more" label="More" title={<>Something <em className="font-serif font-normal">for today</em>.</>}>
+          <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+            <PicOfTheDay />
+            <FactOfTheDay />
+          </div>
+        </Section>
       </main>
 
       <footer className="border-t">
@@ -515,5 +523,89 @@ function ContactForm() {
         Send message ↗
       </button>
     </form>
+  );
+}
+
+const FACTS = [
+  "Graphene, a single layer of carbon atoms, is about 200 times stronger than steel by weight.",
+  "Density Functional Theory earned Walter Kohn a share of the 1998 Nobel Prize in Chemistry.",
+  "An electron in a hydrogen atom spends most of its time about 0.53 Å from the nucleus — the Bohr radius.",
+  "The Coalsack is a dark nebula about 600 light-years away, visible to the naked eye in the southern sky.",
+  "Lithium is the lightest metal; its ions move through layered materials in rechargeable batteries.",
+  "Interstellar dust grains are typically smaller than a micrometre, yet they redden and dim starlight.",
+  "MoS₂ changes from an indirect to a direct band-gap semiconductor when thinned to a single layer.",
+  "Atoms are about 99.9999999% empty space by volume.",
+  "Light from the Sun takes about 8 minutes and 20 seconds to reach Earth.",
+  "Hexagonal boron nitride is nicknamed 'white graphene' and is an excellent insulator.",
+  "The Schrödinger equation for anything larger than hydrogen cannot be solved exactly — hence computation.",
+  "A teaspoon of neutron star material would weigh around a billion tonnes on Earth.",
+];
+
+function dayIndex(n: number) {
+  return Math.floor(Date.now() / 86400000) % n;
+}
+
+function FactOfTheDay() {
+  const [i, setI] = useState<number | null>(null);
+  useEffect(() => setI(dayIndex(FACTS.length)), []);
+  return (
+    <article className="flex flex-col justify-between rounded-3xl border bg-card p-8">
+      <div>
+        <p className="eyebrow text-muted-foreground">Fact of the day</p>
+        <p className="mt-6 font-serif text-3xl leading-snug">{i === null ? "…" : FACTS[i]}</p>
+      </div>
+      <button
+        onClick={() => setI((v) => ((v ?? 0) + 1) % FACTS.length)}
+        className="mt-8 self-start rounded-full border px-4 py-2 text-sm transition-colors hover:bg-secondary"
+      >
+        Another fact →
+      </button>
+    </article>
+  );
+}
+
+type Apod = { title: string; url: string; media_type: string; explanation: string; date: string };
+
+function PicOfTheDay() {
+  const [pic, setPic] = useState<Apod | null>(null);
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    fetch("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY")
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then(setPic)
+      .catch(() => {
+        setFailed(true);
+        setPic({
+          title: "A dark nebula against the Milky Way",
+          url: nebula,
+          media_type: "image",
+          explanation:
+            "Dark nebulae like the Coalsack are dense clouds of interstellar dust that block the light of stars behind them — the kind of dust I modelled during my Master's research.",
+          date: "Today",
+        });
+      });
+  }, []);
+  return (
+    <article className="overflow-hidden rounded-3xl border bg-card">
+      <div className="aspect-[16/10] bg-muted">
+        {pic?.media_type === "image" ? (
+          <img src={pic.url} alt={pic.title} className="h-full w-full object-cover" loading="lazy" />
+        ) : pic ? (
+          <iframe src={pic.url} title={pic.title} className="h-full w-full" allowFullScreen />
+        ) : (
+          <div className="grid h-full place-items-center text-sm text-muted-foreground">
+            {failed ? "Today's picture couldn't load — try again later." : "Loading today's picture…"}
+          </div>
+        )}
+      </div>
+      <div className="p-8">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="eyebrow text-muted-foreground">Picture of the day</p>
+          {pic && <span className="text-sm text-muted-foreground">{pic.date}{failed ? "" : " · NASA APOD"}</span>}
+        </div>
+        <h3 className="mt-3 text-2xl font-semibold">{pic?.title ?? "Astronomy Picture of the Day"}</h3>
+        {pic && <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-muted-foreground">{pic.explanation}</p>}
+      </div>
+    </article>
   );
 }
