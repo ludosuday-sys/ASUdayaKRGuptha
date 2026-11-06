@@ -99,13 +99,12 @@ const CERTIFICATES = ["Coursera certifications", "Scientific workshops", "Techni
 
 /* ---------- Page ---------- */
 export function Shell({ children }: { children: ReactNode }) {
-  const [paused, setPaused] = useState(false);
   const [menu, setMenu] = useState(false);
   const { pathname } = useLocation();
   const active = pathname.replace("/", "");
 
   return (
-    <div className={paused ? "motion-paused" : ""}>
+    <div>
       <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-10">
           <Link to="/" className="flex min-w-0 items-center gap-3">
