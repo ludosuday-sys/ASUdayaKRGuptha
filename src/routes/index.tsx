@@ -184,7 +184,7 @@ function Index() {
       <main id="top">
         {/* Hero */}
         <section className="relative overflow-hidden">
-          <img src={labBg} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-70" />
+          <img src={labBg} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-40" />
           <div className="relative mx-auto grid max-w-7xl items-end gap-8 px-5 pt-10 md:grid-cols-2 md:px-10">
             <div className="relative order-2 md:order-1">
               <img
@@ -192,9 +192,9 @@ function Index() {
                 alt="Sketch portrait of A S Udaya K R Guptha in a lab coat"
                 width={1024}
                 height={1280}
-                className="relative mx-auto w-full max-w-md mix-blend-multiply"
+                className="relative mx-auto w-full max-w-md mix-blend-multiply [mask-image:radial-gradient(ellipse_75%_80%_at_50%_45%,black_60%,transparent_100%)]"
               />
-              <span className="glow-dot absolute left-[78%] top-[30%] h-16 w-16 rounded-full" aria-hidden />
+              <span className="glow-dot absolute left-[55%] top-[26%] h-20 w-20 -translate-x-1/2 rounded-full" aria-hidden />
             </div>
             <div className="reveal order-1 pb-16 md:order-2 md:pb-28">
               <p className="eyebrow text-foreground/80">A S Udaya K R Guptha · PhD Scholar</p>
