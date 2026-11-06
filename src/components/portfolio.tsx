@@ -99,13 +99,12 @@ const CERTIFICATES = ["Coursera certifications", "Scientific workshops", "Techni
 
 /* ---------- Page ---------- */
 export function Shell({ children }: { children: ReactNode }) {
-  const [paused, setPaused] = useState(false);
   const [menu, setMenu] = useState(false);
   const { pathname } = useLocation();
   const active = pathname.replace("/", "");
 
   return (
-    <div className={paused ? "motion-paused" : ""}>
+    <div>
       <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-10">
           <Link to="/" className="flex min-w-0 items-center gap-3">
@@ -132,12 +131,6 @@ export function Shell({ children }: { children: ReactNode }) {
             <a href={CV_URL} download className="hidden rounded-full border px-5 py-2 text-sm font-medium transition-colors hover:bg-secondary sm:block">
               Resume ↓
             </a>
-            <button
-              onClick={() => setPaused((p) => !p)}
-              className="hidden rounded-full border px-4 py-2 text-sm transition-colors hover:bg-secondary sm:block"
-            >
-              {paused ? "Play motion" : "Pause motion"}
-            </button>
             <button onClick={() => setMenu((m) => !m)} className="rounded-full border px-4 py-2 text-sm xl:hidden" aria-label="Menu">
               {menu ? "Close" : "Menu"}
             </button>
