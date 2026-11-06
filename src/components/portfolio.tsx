@@ -405,7 +405,6 @@ function PicOfTheDay() {
 
 export function HeroSection() {
   return (
-        {/* Hero */}
         <section className="relative overflow-hidden">
           <img src={labBg} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-40" />
           <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-5 pt-10 md:grid-cols-[1.1fr_1fr] md:px-10">
