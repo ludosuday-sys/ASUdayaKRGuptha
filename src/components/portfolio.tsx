@@ -396,7 +396,7 @@ export function HeroSection() {
               />
             </div>
             <div className="reveal order-1 pb-16 md:order-2 md:pb-28">
-              <p className="eyebrow text-foreground/80">A S U K R Guptha · PhD Researcher</p>
+              <p className="eyebrow text-foreground/80">A S UDAYA K R GUPTHA · PHD RESEARCHER</p>
               <h1 className="mt-6 text-5xl font-semibold leading-[1] tracking-tight md:text-6xl lg:text-7xl">
                 Computing materials.
                 <br />
