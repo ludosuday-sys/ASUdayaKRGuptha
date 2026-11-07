@@ -128,9 +128,6 @@ export function Shell({ children }: { children: ReactNode }) {
             ))}
           </nav>
           <div className="flex shrink-0 items-center gap-2">
-            <a href={CV_URL} download className="hidden rounded-full border px-5 py-2 text-sm font-medium transition-colors hover:bg-secondary sm:block">
-              Resume ↓
-            </a>
             <button onClick={() => setMenu((m) => !m)} className="rounded-full border px-4 py-2 text-sm xl:hidden" aria-label="Menu">
               {menu ? "Close" : "Menu"}
             </button>
