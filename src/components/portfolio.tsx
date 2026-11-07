@@ -2,7 +2,12 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import portrait from "@/assets/asukrg_portrait.jpg.asset.json";
 import labBg from "@/assets/lab-lineart.jpg";
-import nebula from "@/assets/dark-nebula.jpg";
+import pixelArt from "@/assets/pixel_art_venkateswara.jpg.asset.json";
+import ganeshaPandal from "@/assets/ganesha_pandal_night.jpg.asset.json";
+import building from "@/assets/building_blue_sky.jpg.asset.json";
+import fireworks from "@/assets/fireworks_night.jpg.asset.json";
+import lizard from "@/assets/garden_lizard.jpg.asset.json";
+import templeElephant from "@/assets/temple_elephant_gateway.jpg.asset.json";
 
 /* ---------- Editable content ---------- */
 const EMAIL = "udayaddepalli236@gmail.com";
@@ -309,85 +314,68 @@ function ContactForm() {
   );
 }
 
-const FACTS = [
-  "Graphene, a single layer of carbon atoms, is about 200 times stronger than steel by weight.",
-  "Density Functional Theory earned Walter Kohn a share of the 1998 Nobel Prize in Chemistry.",
-  "An electron in a hydrogen atom spends most of its time about 0.53 Å from the nucleus — the Bohr radius.",
-  "The Coalsack is a dark nebula about 600 light-years away, visible to the naked eye in the southern sky.",
-  "Lithium is the lightest metal; its ions move through layered materials in rechargeable batteries.",
-  "Interstellar dust grains are typically smaller than a micrometre, yet they redden and dim starlight.",
-  "MoS₂ changes from an indirect to a direct band-gap semiconductor when thinned to a single layer.",
-  "Atoms are about 99.9999999% empty space by volume.",
-  "Light from the Sun takes about 8 minutes and 20 seconds to reach Earth.",
-  "Hexagonal boron nitride is nicknamed 'white graphene' and is an excellent insulator.",
-  "The Schrödinger equation for anything larger than hydrogen cannot be solved exactly — hence computation.",
-  "A teaspoon of neutron star material would weigh around a billion tonnes on Earth.",
+const ART = [
+  {
+    src: pixelArt.url,
+    title: "Lord Venkateswara, square by square",
+    caption:
+      "Hand-coloured pixel art on graph paper — every square a single choice of colour, the same way a crystal is built one unit cell at a time.",
+  },
+];
+
+const PHOTOS = [
+  {
+    src: ganeshaPandal.url,
+    title: "Ganesha in the glow",
+    caption: "A pandal lit up on a festival night — gold, marigold and neon cutting through the dark street.",
+  },
+  {
+    src: building.url,
+    title: "Repeating units",
+    caption: "Rows of windows rising into a clear blue sky. Periodic structures aren't only found in crystals.",
+  },
+  {
+    src: fireworks.url,
+    title: "Bursts of light",
+    caption: "Fireworks blooming over a night sky — chemistry and thermodynamics, put on show for a few seconds.",
+  },
+  {
+    src: lizard.url,
+    title: "Hidden in plain green",
+    caption: "A garden lizard resting on a bush, almost perfectly camouflaged among the leaves.",
+  },
+  {
+    src: templeElephant.url,
+    title: "Through the temple gate",
+    caption: "A temple elephant framed by a dark doorway, with the bright gopuram glowing behind.",
+  },
 ];
 
 function dayIndex(n: number) {
   return Math.floor(Date.now() / 86400000) % n;
 }
 
-function FactOfTheDay() {
-  const [i, setI] = useState<number | null>(null);
-  useEffect(() => setI(dayIndex(FACTS.length)), []);
+function DailyCard({ label, items }: { label: string; items: { src: string; title: string; caption: string }[] }) {
+  const [i, setI] = useState(0);
+  useEffect(() => setI(dayIndex(items.length)), [items.length]);
+  const item = items[i]!;
   return (
-    <article className="flex flex-col justify-between rounded-3xl border bg-card p-8">
-      <div>
-        <p className="eyebrow text-muted-foreground">Fact of the day</p>
-        <p className="mt-6 font-serif text-3xl leading-snug">{i === null ? "…" : FACTS[i]}</p>
+    <article className="flex flex-col overflow-hidden rounded-3xl border bg-card">
+      <div className="aspect-[4/5] bg-muted">
+        <img src={item.src} alt={item.title} className="h-full w-full object-cover" loading="lazy" />
       </div>
-      <button
-        onClick={() => setI((v) => ((v ?? 0) + 1) % FACTS.length)}
-        className="mt-8 self-start rounded-full border px-4 py-2 text-sm transition-colors hover:bg-secondary"
-      >
-        Another fact →
-      </button>
-    </article>
-  );
-}
-
-type Apod = { title: string; url: string; media_type: string; explanation: string; date: string };
-
-function PicOfTheDay() {
-  const [pic, setPic] = useState<Apod | null>(null);
-  const [failed, setFailed] = useState(false);
-  useEffect(() => {
-    fetch("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY")
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then(setPic)
-      .catch(() => {
-        setFailed(true);
-        setPic({
-          title: "A dark nebula against the Milky Way",
-          url: nebula,
-          media_type: "image",
-          explanation:
-            "Dark nebulae like the Coalsack are dense clouds of interstellar dust that block the light of stars behind them — the kind of dust I modelled during my Master's research.",
-          date: "Today",
-        });
-      });
-  }, []);
-  return (
-    <article className="overflow-hidden rounded-3xl border bg-card">
-      <div className="aspect-[16/10] bg-muted">
-        {pic?.media_type === "image" ? (
-          <img src={pic.url} alt={pic.title} className="h-full w-full object-cover" loading="lazy" />
-        ) : pic ? (
-          <iframe src={pic.url} title={pic.title} className="h-full w-full" allowFullScreen />
-        ) : (
-          <div className="grid h-full place-items-center text-sm text-muted-foreground">
-            {failed ? "Today's picture couldn't load — try again later." : "Loading today's picture…"}
-          </div>
+      <div className="flex flex-1 flex-col p-8">
+        <p className="eyebrow text-muted-foreground">{label}</p>
+        <h3 className="mt-3 text-2xl font-semibold">{item.title}</h3>
+        <p className="mt-3 font-serif text-xl leading-snug text-muted-foreground">{item.caption}</p>
+        {items.length > 1 && (
+          <button
+            onClick={() => setI((v) => (v + 1) % items.length)}
+            className="mt-6 self-start rounded-full border px-4 py-2 text-sm transition-colors hover:bg-secondary"
+          >
+            Next picture →
+          </button>
         )}
-      </div>
-      <div className="p-8">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="eyebrow text-muted-foreground">Picture of the day</p>
-          {pic && <span className="text-sm text-muted-foreground">{pic.date}{failed ? "" : " · NASA APOD"}</span>}
-        </div>
-        <h3 className="mt-3 text-2xl font-semibold">{pic?.title ?? "Astronomy Picture of the Day"}</h3>
-        {pic && <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-muted-foreground">{pic.explanation}</p>}
       </div>
     </article>
   );
@@ -615,9 +603,9 @@ export function ContactSection() {
 export function MoreSection() {
   return (
         <Section id="more" label="More" title={<>Something <em className="font-serif font-normal">for today</em>.</>}>
-          <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-            <PicOfTheDay />
-            <FactOfTheDay />
+          <div className="grid gap-6 md:grid-cols-2">
+            <DailyCard label="Art of the day" items={ART} />
+            <DailyCard label="Picture of the day" items={PHOTOS} />
           </div>
         </Section>
   );
